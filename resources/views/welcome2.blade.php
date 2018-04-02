@@ -5,17 +5,39 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+             html, body {
+                background-color: #fff;
+                color: #636b6f;
+                font-family: 'Raleway', sans-serif;
+                font-weight: 100;
+                height: 100vh;
+                margin: 0;
+            }
+            * {
+            box-sizing: border-box;
+              }
+
+              #map {
+              float: left;
+              width: 100%;
+              height: 100%;
+              padding: 0 20px;
+              overflow: hidden;
+             }
+             @media only screen and (max-width:800px) {
+             /* For tablets: */
+             #map {
+              width: 80%;
+              padding: 0;
+            }
+          
+            }
+            @media only screen and (max-width:500px) {
+            /* For mobile phones: */
+            #map {
+            width: 100%;
+            }
+            }
     </style>
   </head>
   <body>
