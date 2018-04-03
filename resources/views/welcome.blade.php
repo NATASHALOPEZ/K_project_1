@@ -20,16 +20,13 @@
     <body >
 
     <ul class="topnav" style="background-color: #BAD9F7">
-    <li><img src="/images/logo.png" style="position: relative; left: 120px; padding: 5px; height:70px"></li>
+    <!-- <li><img src="/images/logo.png" style="position: relative; left: 120px; padding: 5px; height:70px"></li> -->
       <li class="right"><a  href="#news">Services</a></li>
      <li class="right"><a href="#contact">Contact</a></li>
      <li class="right"><a  href="#home"><img src="/images/logo_home1.png" style="height: 30px; width: 30px;"></a></li>
 
    
     </ul>
- 
-    
-  
 
       <div id="map">
          <?php 
@@ -43,6 +40,10 @@
        var infowindow;
        var coordinates;
        var coord;
+
+
+
+
   
       function initMap() {
 
@@ -232,6 +233,8 @@
 ]
      });
 
+     var infoWindow = new google.maps.InfoWindow();
+
         for(i in coordinates)
         {
            
@@ -244,38 +247,43 @@
             var lat = parseFloat(loc[0]);
           
             var lng = parseFloat(loc[1]);
-       
             var myLatlng = new google.maps.LatLng(lat,lng);
             var image = {
             url: "/images/Logo WS_small_3.png",
  
            scaledSize: new google.maps.Size(40, 40)
            };
+           
+
        
             var marker = new google.maps.Marker({
             map: map,
             position: myLatlng,
             animation: google.maps.Animation.DROP,
-            title: coord.name ,
+          //  title: coord.name ,
             icon: image
            });
 
         marker.addListener('click', toggleBounce);
 
-        var contentString = coord.name;
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-
-        /*  marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });*/
- // console.log(content);
+       
+           (function (marker, coord) {
+            var name = coord.name;
+           
+           // console.log(gps);
+            google.maps.event.addListener(marker, "mouseover", function (e) {
+                    //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+                    infoWindow.setContent("<div style = 'width:200px;min-height:40px;font-size:16px' >" +"<b>" + name.toUpperCase() + "</b>" +"</br>"+"</br>"+ coord.gps +'<a href="https://www.google.com/maps/dir/?api=1&origin="><img src="/images/direction.png"  style="height:30px;width:30px;"></a> '+ "</div>");
+                    infoWindow.open(map, marker);
+                });
+            })(marker, coord);
 
  
 
    }
+
+    
+
        function toggleBounce() {
         if (marker.getAnimation() !== null) {
           marker.setAnimation(null);
@@ -284,17 +292,21 @@
         }
       }
 
- /* var infowindow = new google.maps.InfoWindow();
- google.maps.event.addListener(marker, 'mouseover', (function(marker) {
-            return function() {
-                coord = coordinates[i];
-                var content = coord.name;
-                infowindow.setContent(content);
-                infowindow.open(map, marker);
-            }
-          })(marker));*/
-         
-        }
+
+     }    
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+   console.log(position.coords.latitude);
+   console.log(position.coords.longitude);
+}
+
 
 
 
