@@ -14,6 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/welcome', function () {
-    return view('welcome2');
+
+
+Route::get('/trial', function () {
+    return view('trial1');
 });
+
+/*Route::get('/trial', function () {
+    return view('trial');
+});*/
+//Route::get('/welcome', "mapController@knowmore");
+Route::get('/trial', "mapController@shopData");

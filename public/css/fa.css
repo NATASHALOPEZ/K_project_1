@@ -14,7 +14,7 @@
      top:80px;
      position: absolute;
      height: 80%;
-     width: 40%;
+     width: 80%;
     border-right-style:  dotted;
     border-top-style: none;
     border-bottom-style: none;
@@ -62,6 +62,10 @@
 .menuitem:hover{
   color:white;
 	background-color: #4980A9;
+}
+.menu a {
+  color: #4980A9;
+  text-decoration: none;
 }
 @media only screen and (max-width:800px) {
   /* For tablets: */

@@ -17,27 +17,30 @@
     <body >
     <div id="info" style="text-decoration-color: black"></div>
 
+
   <div class="main" id="map">   
          <?php 
          $json_url = "http://washstation.servismart.net/washstation/frontend/web/index.php?r=stores/get";
          $json = file_get_contents($json_url);
          $json=str_replace('},]',"}]",$json);
-         //dd($member);
+        // dd($loja);
+
          ?>
+  
+         }
   </div>
   
  <div class="menu">
- 
-    <a href= "#aveiro"><div class="menuitem" id="1">AVEIRO</div></a>
-    <a href= "#coimbra"><div class="menuitem" id="2">COIMBRA</div></a>
-    <a href= "#faro"><div class="menuitem" id="3">FARO</div></a>
-    <a href= "#funchal"><div class="menuitem" id="4">FUNCHAL</div></a>
-    <a href= "#leiria"><div class="menuitem" id="5">LEIRIA</div></a>
-    <a href= "#lisboa"><div class="menuitem" id="6">LISBOA</div></a>
-   <a href= "#porto"> <div class="menuitem" id="7">PORTO</div></a>
-    <a href= "#santarem"><div class="menuitem" id="8">SANTARÉM</div></a>
-   <a href= "#setubal"> <div class="menuitem" id="9">SETÚBAL</div></a>
-    <a href= "#viseu"><div class="menuitem" id="10">VISEU</div></a>
+    <div class="menuitem" id="1">AVEIRO</div>
+    <div class="menuitem" id="2">COIMBRA</div>
+    <div class="menuitem" id="3">FARO</div>
+    <div class="menuitem" id="4">FUNCHAL</div>
+    <div class="menuitem" id="5">LEIRIA</div>
+    <div class="menuitem" id="6">LISBOA</div>
+    <div class="menuitem" id="7">PORTO</div>
+    <div class="menuitem" id="8">SANTARÉM</div>
+    <div class="menuitem" id="9">SETÚBAL</div>
+    <div class="menuitem" id="10">VISEU</div>
   </div>
     <script>
        var map;
@@ -46,9 +49,13 @@
        var coord;
        var bounds;  
       function initMap() {
-       var obj = JSON.parse('<?= $json; ?>');   
-       var coordinates = obj.loja;
+      // var obj = JSON.parse('<?= $json; ?>');   
+       //var coordinates = obj.loja;
         var coord;
+      
+        var lojas = <?php echo json_encode($loja, JSON_PRETTY_PRINT) ?>;
+       // alert( lojas[0].link ); // David Flanagan
+        //alert(products);
       // console.log(coordinates);    
         var portugal = {
         lat: 38.813296,
@@ -185,9 +192,10 @@
       map.fitBounds(bounds);*/
    
      var infoWindow = new google.maps.InfoWindow();
-        for(i in coordinates)
+        for(i in lojas)
         {           
-            coord = coordinates[i];            
+            coord = lojas[i];  
+           // alert(coord) ;         
             var lt = coord.gps; 
 
             var loc = coord.gps.split(",") 
@@ -213,14 +221,18 @@
         marker.addListener('click', toggleBounce);
            (function (marker, coord) {
             var name = coord.name;
-              var url = 'https://maps.google.com?saddr=Current+Location&daddr=';
-           
-            var newURl = url + lat + ', '+ lng ;
+            var info = coord.link
+             var url = 'https://maps.google.com?saddr=Current+Location&daddr=';
+             var newURl = url + lat + ', '+ lng ;
+          
+           //alert(newURl) ;
             //alert(newURl);
               // console.log(gps);
             google.maps.event.addListener(marker, "mouseover", function (e) {
+
+        
                     //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-                    infoWindow.setContent("<div style = 'width:300px;min-height:20px;font-size:13px' >" +"<b>" + name.toUpperCase() + "</b>" +'<a href="' + newURl + '"><img src="/images/direction.png"  style="position:relative;float:right;height:30px;width:30px;"></a> '+ "</div>");
+                    infoWindow.setContent("<div style = 'width:300px;min-height:20px;font-size:14px' >" +"<b>" + name.toUpperCase() + "</b>" +'<a href="' + info + '"><img src="/images/info.png"  style="position:relative;float:right;right:60px;height:28px;width:28px;"></a> '+'<a href="' + newURl + '"><img src="/images/direction.png"  style="position:relative;float:right;height:25px;width:25px;"></a> '+ "</div>");
                     infoWindow.open(map, marker);
                 });
             })(marker, coord);
